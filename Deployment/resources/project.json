@@ -35,23 +35,13 @@
     }
   },
   "variables": {
-    "storageName": "srpocdefaultstorage",
-    "fappName": "[concat(parameters('name'), '-fapp')]",
-    "fappHostingPlanName": "[concat(parameters('name'), '-fapp-plan')]",
-    "fappAIName": "[concat(variables('fappName'),'-ai')]",
     "signalrName": "[concat(parameters('name'), '-srs')]",
     "iotHubName": "[concat(parameters('name'), '-iothub')]",
     "eventHubNSName": "[concat(parameters('name'), '-ehubns')]",
     "eventHubName": "[concat(parameters('name'), '-ehub')]",
     "iotHubconsumerGroupName": "[concat(variables('iotHubName'), '/events/iothub-cg1')]",
     "defaultSASKeyName": "RootManageSharedAccessKey",
-    "authRuleResourceId": "[resourceId('Microsoft.EventHub/namespaces/authorizationRules', variables('eventHubNSName'), variables('defaultSASKeyName'))]",
-    "functionHostingPlanResourceId": "[resourceId('Microsoft.Web/serverfarms', variables('fappHostingPlanName'))]",
-    "functionAppResourceId": "[resourceId('Microsoft.Web/sites', variables('fappName'))]",
-    "apiVersions": {
-      "serverfarms": "2016-09-01",
-      "sites": "2016-03-01"
-    }
+    "authRuleResourceId": "[resourceId('Microsoft.EventHub/namespaces/authorizationRules', variables('eventHubNSName'), variables('defaultSASKeyName'))]"
   },
   "resources": [
     {
@@ -118,82 +108,6 @@
       "dependsOn": [
         "[resourceId('Microsoft.Devices/IotHubs', variables('iotHubName'))]"
       ]
-    },
-    {
-      "name": "[variables('fappHostingPlanName')]",
-      "type": "Microsoft.Web/serverfarms",
-      "apiVersion": "[variables('apiVersions').serverfarms]",
-      "location": "[parameters('location')]",
-      "dependsOn": [],
-      "kind": "functionapp",
-      "properties": {
-        "name": "[variables('fappHostingPlanName')]"
-      },
-      "sku": {
-        "name": "Y1",
-        "tier": "Dynamic"
-      }
-    },
-    {
-      "name": "[variables('fappName')]",
-      "type": "Microsoft.Web/sites",
-      "apiVersion": "[variables('apiVersions').sites]",
-      "location": "[parameters('location')]",
-      "dependsOn": [
-        "[variables('functionHostingPlanResourceId')]"
-      ],
-      "kind": "functionapp",
-      "identity": {
-        "type": "SystemAssigned"
-      },
-      "properties": {
-        "enabled": true,
-        "serverFarmId": "[variables('functionHostingPlanResourceId')]",
-        "hostNameSslStates": [
-          {
-            "name": "[concat(variables('fappName'),'.azurewebsites.net')]",
-            "sslState": "Disabled",
-            "virtualIP": null,
-            "thumbprint": null,
-            "toUpdate": null,
-            "hostType": "Standard"
-          },
-          {
-            "name": "[concat(variables('fappName'),'.scm.azurewebsites.net')]",
-            "sslState": "Disabled",
-            "virtualIP": null,
-            "thumbprint": null,
-            "toUpdate": null,
-            "hostType": "Repository"
-          }
-        ]
-      },
-      "resources": [
-        {
-          "name": "appsettings",
-          "type": "config",
-          "apiVersion": "[variables('apiVersions').sites]",
-          "dependsOn": [
-            "[variables('functionAppResourceId')]"
-          ],
-          "properties": {
-            "AzureWebJobsStorage": "null",
-            "FUNCTIONS_WORKER_RUNTIME": "dotnet",
-            "FUNCTIONS_EXTENSION_VERSION": "~2",
-            "APPINSIGHTS_INSTRUMENTATIONKEY": "[reference(concat('microsoft.insights/components/',variables('fappAIName')), '2015-05-01').InstrumentationKey]"
-          }
-        }
-      ]
-    },
-    {
-      "apiVersion": "2015-05-01",
-      "name": "[variables('fappAIName')]",
-      "type": "microsoft.insights/components",
-      "location": "eastus2",
-      "properties": {
-        "ApplicationId": "[variables('fappName')]",
-        "Request_Source": "IbizaWebAppExtensionCreate"
-      }
     },
     {
       "apiVersion": "2017-04-01",

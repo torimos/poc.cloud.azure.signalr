@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IoTEventsProcessor", "IoTEventsProcessor\IoTEventsProcessor.csproj", "{60FE3CFD-8CF8-4F61-827A-5E989A63C1B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerLessIoTApp", "IoTEventsProcessor\ServerLessIoTApp.csproj", "{60FE3CFD-8CF8-4F61-827A-5E989A63C1B9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventsListener", "EventsListener\EventsListener.csproj", "{495E7D24-EC70-4D77-B39F-F2E53373F79D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SomeIoTApiClient", "EventsListener\SomeIoTApiClient.csproj", "{495E7D24-EC70-4D77-B39F-F2E53373F79D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deployment", "Deployment\Deployment.csproj", "{B16DD2EC-35AF-4766-8EE5-0A08259E4649}"
 EndProject
