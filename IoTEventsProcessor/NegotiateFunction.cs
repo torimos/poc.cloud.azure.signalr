@@ -21,7 +21,7 @@ namespace IoTEventsProcessor
         {
             var token = req.Headers["Authorization"].FirstOrDefault()?.Split(' ').Last();
             var user = authService.ValidateToken(token);
-            if (user.Identity.IsAuthenticated)
+            if (user?.Identity?.IsAuthenticated == true)
             {
                 var connectionInfo = binder.Bind<SignalRConnectionInfo>(
                     new SignalRConnectionInfoAttribute
